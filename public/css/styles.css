@@ -1,0 +1,49 @@
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.header-content {
+    background: url('../images/banniere.jpg') no-repeat center center/cover;
+    color: white;
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+footer p {
+    margin: 0;
+}
+
+a:hover{
+    cursor: pointer;
+}
+
+footer a{
+    color: whitesmoke;
+    text-decoration: none;
+    transition: ease 0.5s;
+}
+
+footer a:hover{
+    opacity: 0.75;
+}
+
+.no-resize{
+    resize: none;
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Menu{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<section id="menu" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Nos pizzas</h2>
+        <div class="row">
+            {% for pizza in pizzas %}         
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ asset('images/' ~ pizza.title ~ '.jpg') }}" class="card-img-top" alt="{{ pizza.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{pizza.title}}</h5>
+                            <p class="card-text">{{pizza.description}}</p>
+                            <p class="card-text"><strong>{{pizza.price|price}}</strong></p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+</section>
+{% endblock %}
