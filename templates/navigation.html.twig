@@ -1,24 +1,38 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="/">Pizza Express</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link me-3 {{ title == 'accueil' ? 'active' :'' }}" href="/">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link me-3 {{ title == 'menu' ? 'active' :'' }}" href="/menu">Menu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link me-3 {{ title == 'propos' ? 'active' :'' }}">À propos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link me-3 {{ title == 'contact' ? 'active' :'' }}" href="#contact">Contact</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+	<div class="container">
+		<a class="navbar-brand" href="/">Pizza Express</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ms-auto">
+				<li class="nav-item">
+					<a class="nav-link me-3 {{ title == 'accueil' ? 'active' :'' }}" href="/">Accueil</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link me-3 {{ title == 'menu' ? 'active' :'' }}" href="/menu">Menu</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link me-3 {{ title == 'propos' ? 'active' :'' }}">À propos</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link me-3 {{ title == 'contact' ? 'active' :'' }}" href="#contact">Contact</a>
+				</li>
+				<li class="nav-item">
+					<a class="d-flex nav-link me-3 {{ title == 'logout' and prenom is defined and prenom is not empty ? 'active' : (title == 'login' ? 'active' : '') }}" href="{% if prenom is defined and prenom is not empty %}/logout{% else %}/login{% endif %}">
+						<div class="personnage">
+							<svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+								<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+								<circle cx="12" cy="7" r="4"></circle>
+							</svg>
+
+						</div>
+						{% if prenom is defined and prenom is not empty %}
+							<p>{{ prenom }}</p>
+						{% endif %}
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>

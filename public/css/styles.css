@@ -21,21 +21,21 @@ footer p {
     margin: 0;
 }
 
-a:hover{
+a:hover {
     cursor: pointer;
 }
 
-footer a{
+footer a {
     color: whitesmoke;
     text-decoration: none;
     transition: ease 0.5s;
 }
 
-footer a:hover{
+footer a:hover {
     opacity: 0.75;
 }
 
-.no-resize{
+.no-resize {
     resize: none;
 }
 
@@ -44,6 +44,33 @@ footer a:hover{
 }
 
 .card:hover {
-    transform: scale(1.05); 
+    transform: scale(1.05);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.personnage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px; 
+    border-radius: 50%;
+}
+
+.personnage:hover{
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
