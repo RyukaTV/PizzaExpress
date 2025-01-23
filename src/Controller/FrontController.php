@@ -21,7 +21,6 @@ class FrontController extends AbstractController {
 
     #[Route('/menu', methods: ['GET'])]
     public function displayCarte() {
-        //call 127.0.0.1:3000/api/sectionProduits
         $response = $this->apiLinker->getData('/sectionProduits', null);
         return $this->render('menu.html.twig', ['title' => 'menu', 'sections' => json_decode($response)]);
     }
