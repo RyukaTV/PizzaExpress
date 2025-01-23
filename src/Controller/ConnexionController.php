@@ -25,26 +25,35 @@ class ConnexionController extends AbstractController
     #[Route('/login', methods: ['POST'])]
     public function connexion(Request $request)
     {
+        try {
+            $email = $request->request->get('email');
+            $password = $request->request->get('password');
 
-        $email = $request->request->get('email');
-        $password = $request->request->get('password');
+            if (!empty($email) && !empty($password)) {
+                $data = $this->jsonConverter->encodeToJson(['email' => $email, 'password' => $password]);
+                $response = $this->apiLinker->postData('/token', $data, null);
+                $responseObject = json_decode($response);
 
-        if (!empty($email) && !empty($password)) {
-            $data = $this->jsonConverter->encodeToJson(['email' => $email, 'password' => $password]);
-            $response = $this->apiLinker->postData('/token', $data, null);
-            $responseObject = json_decode($response);
+                $session = $request->getSession();
+                $session->set("token-session", $responseObject->token);
 
-            $selfresponse = $this->apiLinker->getData("/myself", $responseObject->token);
-            $selfObject= json_decode($selfresponse);
+                $selfresponse = $this->apiLinker->getData("/myself", $session->get("token-session"));
+                $selfObject= json_decode($selfresponse);
 
-            $session = $request->getSession();
-            foreach ($selfObject as $key => $value) {
-                $session->set($key, $value);
+                foreach ($selfObject as $key => $value) {
+                    $session->set($key, $value);
+                }
+                return $this->redirectToRoute('app_page_displayaccueil');
             }
-            return $this->redirect('/');
-        }
 
-        return $this->redirect('/login');
+            return $this->redirectToRoute('app_connexion_diplayloginform');
+        } catch (\Throwable $th) {
+            //throw $th;
+            $session = $request->getSession();
+            $session->set('message', 'Identifiants invalides!');
+            return $this->redirectToRoute("app_connexion_diplayloginform");
+        }
+        
     }
 
     #[Route('/login', methods: ['GET'])]
@@ -57,8 +66,9 @@ class ConnexionController extends AbstractController
     public function deconnexion(Request $request)
     {
         $session = $request->getSession();
+        $session->remove("token-session");
         $session->clear();
 
-        return $this->redirect('/');
+        return $this->redirectToRoute('app_page_displayaccueil');
     }
 }

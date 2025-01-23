@@ -17,6 +17,11 @@
                 <form method='POST' action='/login' class="col-lg-3 col-12 mx-auto form-connexion p-5 pt-4 mb-4">
                     <img src='{{ asset("images/logo.svg") }}' class='w-50 mx-auto d-block'>
 
+                    {% if app.session.has('message') %}
+                        <p class="error-message">{{ app.session.get('message') }}</p>
+                        {% do app.session.remove('message') %}
+                    {% endif %}
+
                     <div class='form-group'>
                         <input type='text' class='form-control' id='identifiant' name='email' placeholder='Identifiant' required>
                     </div>
@@ -24,7 +29,7 @@
                         <input type='password' class='form-control' id='password' name='password' placeholder='Mot de passe' required>
                     </div>
                     <button type='submit' class='btn btn-success mt-4 w-100'>Valider</button>
-                </form>
+                </form>                
             </div>
         </div>
     </div>

@@ -61,6 +61,12 @@ footer a:hover {
     animation: bounce 2s infinite;
 }
 
+.error-message{
+    color: red;
+    display: flex;
+    justify-content: center;
+}
+
 @keyframes bounce {
     0% {
         transform: translateY(0);
