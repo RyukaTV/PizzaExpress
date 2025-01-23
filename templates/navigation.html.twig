@@ -13,13 +13,21 @@
 					<a class="nav-link me-3 {{ title == 'menu' ? 'active' :'' }}" href="/menu">Menu</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link me-3 {{ title == 'propos' ? 'active' :'' }}">À propos</a>
+					<a class="nav-link me-3 {{ title == 'fidelite'  ? 'active' : '' }}" href="/fidelite">
+						{% if app.session.has('roles') and 'ROLE_USER' in app.session.get('roles') %}Mon Programme de fidelité{% else %}Le Programme de fidelité
+						{% endif %}
+					</a>
 				</li>
+				{#
+																				<li class="nav-item">  and 
+																					<a class="nav-link me-3 {{ title == 'propos' ? 'active' :'' }}">À propos</a>
+																				</li>
+																				<li class="nav-item">
+																					<a class="nav-link me-3 {{ title == 'contact' ? 'active' :'' }}" href="#contact">Contact</a>
+																				</li>
+																				#}
 				<li class="nav-item">
-					<a class="nav-link me-3 {{ title == 'contact' ? 'active' :'' }}" href="#contact">Contact</a>
-				</li>
-				<li class="nav-item">
-					<a class="d-flex nav-link me-3 {{ title == 'logout' and prenom is defined and prenom is not empty ? 'active' : (title == 'login' ? 'active' : '') }}" href="{% if prenom is defined and prenom is not empty %}/logout{% else %}/login{% endif %}">
+					<a class="d-flex nav-link me-3 {{ title == 'myself' and prenom is defined and prenom is not empty ? 'active' : (title == 'login' ? 'active' : '') }}" href="{% if prenom is defined and prenom is not empty %}/myself{% else %}/login{% endif %}">
 						<div class="personnage">
 							<svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
 								<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -28,9 +36,24 @@
 						</div>
 						{% if prenom is defined and prenom is not empty %}
 							<p>{{ prenom }}</p>
+						{% else %}
+							<p>Se connecter</p>
 						{% endif %}
 					</a>
 				</li>
+				{% if app.session.has('roles') and 'ROLE_USER' in app.session.get('roles') %}
+					<li class="nav-item">
+						<a class="nav-link me-3 {{ title == 'logout' ? 'active' :'' }}" href="/logout">
+							<div>
+								<svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out">
+									<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+									<polyline points="16 17 21 12 16 7"></polyline>
+									<line x1="21" y1="12" x2="9" y2="12"></line>
+								</svg>
+							</div>
+						</a>
+					</li>
+				{% endif %}
 			</ul>
 		</div>
 	</div>

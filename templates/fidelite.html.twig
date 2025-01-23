@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Programme de fidelité
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% if app.session.has('roles') and 'ROLE_USER' in app.session.get('roles') %}
+    <div class="d-flex justify-content-center titleStamp" style="margin-top: 5%;">Votre programme de points fidélité</div>
+
+	<div class="containerStamp" style=" margin-top: 5%;">
+		<div class="card-gridStamp">
+			{% for i in 1..8 %}
+				<div class="cardStamp">
+					{% if i <= stamps %}
+						<div class="stamp"></div>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+    {% endif %}
+
+	<div class="d-flex justify-content-center titleStamp">Le programme de fidélité, qu'est-ce que c'est ?</div>
+
+	<div class="containerStamp">
+		<div class="descriptionStamp">
+			<p style= "white-space: pre-line;">
+				Le programme de fidélité vous permet d'accumuler des tampons à chaque achat effectué dans notre boutique.
+                Une fois que vous avez rempli votre carte avec 8 tampons, vous recevez une récompense exclusive pour vous remercier de votre fidélité !
+                C'est notre façon de dire merci à nos clients les plus précieux.
+			</p>
+		</div>
+	</div>
+{% endblock %}

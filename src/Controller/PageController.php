@@ -38,4 +38,9 @@ class PageController extends AbstractController {
         return $this->render('users.html.twig', ['users' => $users, 'role' => 'admin', 'prenom'=> $request->getSession()->get("username")]);
     }
 
+    #[Route('/fidelite', methods: ['GET'])]
+    public function displayFidelitePage(Request $request){    
+        return $this->render("fidelite.html.twig", ['title'=> 'fidelite', 'stamps'=> $request->getSession()->get("loyalty_points"), 'prenom'=> $request->getSession()->get("username")]);
+    }
+
 }
