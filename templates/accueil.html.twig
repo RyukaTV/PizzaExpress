@@ -32,36 +32,18 @@
     <div class="container">
         <h2 class="text-center mb-4">Notre selection du moment</h2>
         <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{{asset('/images/Margherita.jpg')}}" class="card-img-top" alt="Margherita">
-                    <div class="card-body">
-                        <h5 class="card-title">Margherita</h5>
-                        <p class="card-text">Tomate, mozzarella, basilic frais.</p>
-                        <p class="card-text"><strong>{{10.75|price}}</strong></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{{asset('/images/Pepperoni.jpg')}}" class="card-img-top" alt="Pepperoni">
-                    <div class="card-body">
-                        <h5 class="card-title">Pepperoni</h5>
-                        <p class="card-text">Pepperoni, mozzarella, sauce tomate.</p>
-                        <p class="card-text"><strong>{{12.50|price}}</strong></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{{asset('/images/Végétarienne.jpg')}}" class="card-img-top" alt="Végétarienne">
-                    <div class="card-body">
-                        <h5 class="card-title">Végétarienne</h5>
-                        <p class="card-text">Légumes frais, mozzarella, sauce tomate.</p>
-                        <p class="card-text"><strong>{{11|price}}</strong></p>
-                    </div>
-                </div>
-            </div>
+            {% for selectedPizza in selectedPizzas %}       
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                            <img src="{{ 'http://127.0.0.1:3000' ~ selectedPizza.image_path }}" class="card-img-top" alt="{{ selectedPizza.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{selectedPizza.name}}</h5>
+                                <p class="card-text">{{selectedPizza.description}}</p>
+                                <p class="card-text"><strong>{{selectedPizza.price|price}}</strong></p>
+                            </div>
+                        </div>
+                </div>       
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -72,7 +54,7 @@
         <p>Pizza Express est une pizzeria familiale avec des recettes authentiques et des ingrédients frais. Nous nous efforçons de vous offrir une expérience culinaire exceptionnelle, avec des pizzas préparées sur place avec amour.</p>
     </div>
 </section>
-
+<!--
 <section id="contact" class="py-5 bg-light">
     <div class="container">
         <h2 class="text-center mb-4">Contactez-Nous</h2>
@@ -94,5 +76,5 @@
             <button type="submit" class="btn btn-primary">Envoyer</button>
         </form>
     </div>
-</section>
+</section>-->
 {% endblock %}

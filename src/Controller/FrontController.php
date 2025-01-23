@@ -3,28 +3,26 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\ApiLinker;
 
-class FrontController extends AbstractController {    
+class FrontController extends AbstractController {  
+    
+    private $apiLinker;
+  
+    public function __construct(ApiLinker $apiLinker) {
+        $this->apiLinker = $apiLinker;
+     }
     
     #[Route('/', methods: ['GET'])]
     public function displayAccueil() {
-        return $this->render('accueil.html.twig', ['title' => 'accueil']);
+        $response = $this->apiLinker->getData('/sectionProduits/selected', null);
+        return $this->render('accueil.html.twig', ['title' => 'accueil', 'selectedPizzas' => json_decode($response)]);
     }
 
     #[Route('/menu', methods: ['GET'])]
     public function displayCarte() {
-        $pizzas = [
-            ['title' => 'Margherita', 'description' => 'Tomate, mozzarella, basilic frais.', 'price' => 10.75],
-            ['title' => 'Pepperoni', 'description' => 'Pepperoni, mozzarella, sauce tomate.', 'price' => 12.5],
-            ['title' => 'Végétarienne', 'description' => 'Légumes frais, mozzarella, sauce tomate.', 'price' => 11],
-            ['title' => 'Quatre Fromages', 'description' => 'Mozzarella, gorgonzola, parmesan, chèvre, miel, sauce tomate.', 'price' => 13.5],
-            ['title' => 'Reine', 'description' => 'Jambon, champignons, mozzarella, sauce tomate.', 'price' => 12.0],
-            ['title' => 'Calzone', 'description' => 'Pizza pliée, jambon, mozzarella, ricotta, sauce tomate.', 'price' => 13.0],
-            ['title' => 'Diavola', 'description' => 'Salami piquant, mozzarella, sauce tomate, olives.', 'price' => 14.0],
-            ['title' => 'Napolitaine', 'description' => 'Anchois, câpres, olives, sauce tomate, mozzarella.', 'price' => 13.0],
-            ['title' => 'Capricciosa', 'description' => 'Artichauts, jambon, champignons, olives, mozzarella, sauce tomate.', 'price' => 14.5],
-        ];
-
-        return $this->render('menu.html.twig', ['title' => 'menu', 'pizzas' => $pizzas]);
+        //call 127.0.0.1:3000/api/sectionProduits
+        $response = $this->apiLinker->getData('/sectionProduits', null);
+        return $this->render('menu.html.twig', ['title' => 'menu', 'sections' => json_decode($response)]);
     }
 }
