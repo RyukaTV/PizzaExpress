@@ -59,12 +59,12 @@ class PageController extends AbstractController {
         $prenom= $request->request->get("name");
         $email= $request->request->get("email");
 
-        if (isset($email)) {
+        if (isset($email) && !empty($email)) {
             $data = $this->jsonConverter->encodeToJson(['email' => $email]);
-            $this->apiLinker->postData('/token', $data, $request->getSession()->get("token-session"));
-        
+            $responce= $this->apiLinker->postData('/users/changeEmail', $data, $request->getSession()->get("token-session"));
+            $this->refreshSession($request, $responce);
         }
-        if (isset($prenom)) {
+        if (isset($prenom) && !empty($prenom)) {
             $data = $this->jsonConverter->encodeToJson(['prenom' => $prenom]);
             $this->apiLinker->postData('/token', $data, $request->getSession()->get("token-session"));
         
@@ -72,11 +72,17 @@ class PageController extends AbstractController {
 
         $password= $request->request->get("password");
         $repassword= $request->request->get("repassword");
-        if (isset($password) && isset($repassword)) {
+        if (isset($password) && !empty($password) && isset($repassword) && !empty($repassword)) {
             $data= $this->jsonConverter->encodeToJson(['password' => $password, 'repassword' => $repassword]);
             $this->apiLinker->postData('/password', $data, $request->getSession()->get("token-session"));
         }
 
-        return $this->redirectToRoute('app_page_diplayaccountpage');
+        return $this->redirectToRoute('app_page_displayaccountpage');
+    }
+
+    private function refreshSession(Request $request, $jsondata){
+        foreach (json_decode($jsondata) as $key => $value) {
+            $request->getSession()->set($key, $value);
+        }
     }
 }
