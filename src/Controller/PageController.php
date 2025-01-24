@@ -5,42 +5,78 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ApiLinker;
 use Symfony\Component\HttpFoundation\Request;
+use App\Service\RouteChecker;
+use App\Service\JsonConverter;
 
 class PageController extends AbstractController {  
     
+    private $jsonConverter;
     private $apiLinker;
-  
-    public function __construct(ApiLinker $apiLinker) {
+
+    public function __construct(ApiLinker $apiLinker, JsonConverter $jsonConverter) {
         $this->apiLinker = $apiLinker;
-     }
+        $this->jsonConverter = $jsonConverter;
+    }
     
     #[Route('/', methods: ['GET'])]
-    public function displayAccueil(Request $request) {
+    public function displayAccueil() {
         $response = $this->apiLinker->getData('/sectionProduits/selected', null);
-        return $this->render('accueil.html.twig', ['title' => 'accueil', 'selectedPizzas' => json_decode($response), 'prenom'=> $request->getSession()->get("username")]);
+        return $this->render('accueil.html.twig', ['title' => 'accueil', 'selectedPizzas' => json_decode($response)]);
     }
 
     #[Route('/menu', methods: ['GET'])]
-    public function displayCarte(Request $request) {
-        //call 127.0.0.1:3000/api/sectionProduits
+    public function displayCarte() {
         $response = $this->apiLinker->getData('/sectionProduits', null);
-        return $this->render('menu.html.twig', ['title' => 'menu', 'sections' => json_decode($response), 'prenom'=> $request->getSession()->get("username")]);
+        return $this->render('menu.html.twig', ['title' => 'menu', 'sections' => json_decode($response)]);
     }
 
-    #[Route('/users', methods: ['GET'], condition: "service('route_checker').checkAdmin(request)")]
-    public function displayUtilisateursPage(Request $request) {
-        $session = $request->getSession();
-        $token = $session->get('token-session');
+    #[Route('/admin', methods: ['GET'])]
+    public function displayUtilisateursPage(Request $request, RouteChecker $routeChecker) {
+        if (!$routeChecker->checkAdmin($request)) {
+            return $this->redirectToRoute("app_page_displayaccueil");
+        }
+        $token = $request->getSession()->get('token-session');
 
-        $response = $this->apiLinker->getData('/users', $token);
-        $users = json_decode($response);
-
-        return $this->render('users.html.twig', ['users' => $users, 'role' => 'admin', 'prenom'=> $request->getSession()->get("username")]);
+        $response = $this->apiLinker->getData('/admin/*', $token);
+        return $this->render('admin.html.twig', ['users' => json_decode($response)]);
     }
 
     #[Route('/fidelite', methods: ['GET'])]
-    public function displayFidelitePage(Request $request){    
-        return $this->render("fidelite.html.twig", ['title'=> 'fidelite', 'stamps'=> $request->getSession()->get("loyalty_points"), 'prenom'=> $request->getSession()->get("username")]);
+    public function displayFidelitePage(){    
+        return $this->render("fidelite.html.twig", ['title'=> 'fidelite']);
     }
 
+    #[Route('/myself', methods: ['GET'])]
+    public function displayAccountPage(Request $request, RouteChecker $routeChecker){
+        if (!$routeChecker->checkUser($request)) {
+            return $this->redirectToRoute("app_page_displayaccueil");
+        }
+        return $this->render("myself.html.twig", ['title' => 'myself']);
+    }
+
+    #[Route('/myself', methods: ['POST'])]
+    public function aaa(Request $request){
+        $prenom= $request->request->get("name");
+        $email= $request->request->get("email");
+
+        if (isset($email)) {
+            $data = $this->jsonConverter->encodeToJson(['email' => $email]);
+            $this->apiLinker->postData('/token', $data, $request->getSession()->get("token-session"));
+        
+        }
+        if (isset($prenom)) {
+            $data = $this->jsonConverter->encodeToJson(['prenom' => $prenom]);
+            $this->apiLinker->postData('/token', $data, $request->getSession()->get("token-session"));
+        
+        }
+
+        $password= $request->request->get("password");
+        $repassword= $request->request->get("repassword");
+        if (isset($password) && isset($repassword)) {
+            $data= $this->jsonConverter->encodeToJson(['password' => $password, 'repassword' => $repassword]);
+            $this->apiLinker->postData('/password', $data, $request->getSession()->get("token-session"));
+        }
+
+        return $this->redirectToRoute('app_page_diplayaccountpage');
+    }
 }

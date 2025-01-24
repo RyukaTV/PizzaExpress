@@ -130,6 +130,60 @@ footer a:hover {
     font-size: 0.9rem;
 }
 
+.textfield-champ {
+    border: none;
+    box-sizing: border-box;
+    border-bottom: 1px solid #dddbdb;
+    background-color: transparent;
+}
+
+.textfield-champ::placeholder{
+    color: gray;
+}
+
+.textfield-champ:focus {
+    border: none;
+    border-bottom: 1px solid tomato;
+}
+
+.textfield-champ:focus-visible {
+    outline: none;
+}
+
+.container-champ {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.label-champ {
+    width: 280px;
+    margin-right: 10px;
+}
+
+.container-retour-text {
+    font-size: 15px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-content {
+    color: #dddbdb;
+    background: rgba(33, 37, 41, 1);
+    padding: 25px;
+    box-shadow: 1px 0 4px 0 rgba(33, 37, 41, 1);
+    border-radius: 5px;
+}
+
+.buttonsContainer {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 @keyframes bounce {
     0% {
         transform: translateY(0);

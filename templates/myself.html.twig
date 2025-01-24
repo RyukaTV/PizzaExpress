@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Mon Compte
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<p>bienvenue sur la page de votre compte, {{ app.session.get('username') }}</p>
+
+	<div class="d-flex justify-content-center grid gap-0 column-gap-4">
+		<form class="form-content" action="" method="post">
+			<div class="container-champ">
+				<label class="label-champ">Prénom : </label>
+				<input class="textfield-champ" type="text" spellcheck="false" name="name" placeholder="{{ app.session.get('username') }}">
+			</div>
+			<div class="container-champ">
+				<label class="label-champ">Email : </label>
+				<input class="textfield-champ" type="email" spellcheck="false" name="email" placeholder="{{ app.session.get('email') }}">
+			</div>
+			<div class="container-retour-text"></div>
+			<div  class="buttonsContainer">
+				<input type="submit" class="btn btn-success" value="Valider">
+			</div>
+		</form>
+
+		<form class="form-content" action="" method="post"> <!--create action in back and create page post-->
+			<div class="container-champ">
+				<label class="label-champ">Nouveau mot de passe : </label>
+				<input spellcheck="false" class="textfield-champ" type="password" name="password"
+					placeholder="Nouveau mot de passe" autocomplete="new-password">
+			</div>
+			<div class="container-champ">
+				<label class="label-champ">Confirmer nouveau mot de passe : </label>
+				<input spellcheck="false" class="textfield-champ" type="password" name="repassword"
+					placeholder="Confirmer mot de passe" autocomplete="new-password">
+			</div>
+			<div class="container-retour-text"></div>
+			<div class="buttonsContainer">
+				<input type="submit" class="btn btn-success" value="Valider"><!--stylisé button-->
+			</div>
+		</form>	
+	</div>
+	<div class="container-retour-text"></div>
+{% endblock %}
