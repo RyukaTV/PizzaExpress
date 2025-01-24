@@ -135,6 +135,7 @@ footer a:hover {
     box-sizing: border-box;
     border-bottom: 1px solid #dddbdb;
     background-color: transparent;
+    color: #dddbdb;
 }
 
 .textfield-champ::placeholder{
