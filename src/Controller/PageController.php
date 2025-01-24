@@ -53,7 +53,7 @@ class PageController extends AbstractController
         return $this->render("fidelite.html.twig", ['title' => 'fidelite']);
     }
 
-    #[Route('/myself', methods: ['GET'])]
+    #[Route('/profil', methods: ['GET'])]
     public function displayAccountPage(Request $request, RouteChecker $routeChecker)
     {
         if (!$routeChecker->checkUser($request)) {
@@ -62,7 +62,7 @@ class PageController extends AbstractController
         return $this->render("myself.html.twig", ['title' => 'myself']);
     }
 
-    #[Route('/myself', methods: ['POST'])]
+    #[Route('/profil', methods: ['POST'])]
     public function aaa(Request $request)
     {
         $prenom = $request->request->get("name");
@@ -83,7 +83,8 @@ class PageController extends AbstractController
         $repassword = $request->request->get("repassword");
         if (isset($password) && !empty($password) && isset($repassword) && !empty($repassword)) {
             $data = $this->jsonConverter->encodeToJson(['password' => $password, 'repassword' => $repassword]);
-            $this->apiLinker->postData('/password', $data, $request->getSession()->get("token-session"));
+            $responce = $this->apiLinker->postData('/users/changePassword', $data, $request->getSession()->get("token-session"));
+            $this->refreshSession($request, $responce);
         }
 
         return $this->redirectToRoute('app_page_displayaccountpage');
