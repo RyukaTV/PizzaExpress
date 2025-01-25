@@ -1,80 +1,85 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | Accueil{% endblock %}
+{% block title %}
+	{{ parent() }}
+	| Accueil
+{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
+	{{ parent() }}
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
+	{{ parent() }}
 {% endblock %}
 
 
 {% block body %}
-    <header class="text-white">
-        <div class="header-content text-center text-white py-5">
-            <h1 class="display-4">Bienvenue chez Pizza Express!</h1>
-            <p class="lead">Des pizzas faites avec passion et des ingrédients frais.</p>
-            <a href="/menu" class="btn btn-light btn-lg">Voir le Menu</a>
-        </div>
-    </header>
+	<header class="text-white">
+		<div class="header-content text-center text-white py-5">
+			<h1 class="display-4">Bienvenue chez Pizza Express!</h1>
+			<p class="lead">Des pizzas faites avec passion et des ingrédients frais.</p>
+			<a href="/menu" class="btn btn-light btn-lg">Voir le Menu</a>
+		</div>
+	</header>
 
-    <section id="home" class="py-5">
-        <div class="container text-center">
-            <h2 class="display-4">Découvrez nos offres</h2>
-            <p class="lead">Nous vous offrons une variété de pizzas délicieuses préparées à partir d'ingrédients locaux.</p>
-            <a href="/menu" class="btn btn-primary btn-lg">Voir le Menu</a>
-        </div>
-    </section>
+	<section id="home" class="py-5">
+		<div class="container text-center">
+			<h2 class="display-4">Découvrez nos offres</h2>
+			<p class="lead">Nous vous offrons une variété de pizzas délicieuses préparées à partir d'ingrédients locaux.</p>
+			<a href="/menu" class="btn btn-primary btn-lg">Voir le Menu</a>
+		</div>
+	</section>
 
-    <section id="menu" class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center mb-4">Notre selection du moment</h2>
-        <div class="row">
-            {% for selectedPizza in selectedPizzas %}       
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                            <img src="{{ 'http://127.0.0.1:3000' ~ selectedPizza.image_path }}" class="card-img-top" alt="{{ selectedPizza.name }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{selectedPizza.name}}</h5>
-                                <p class="card-text">{{selectedPizza.description}}</p>
-                                <p class="card-text"><strong>{{selectedPizza.price|price}}</strong></p>
-                            </div>
-                        </div>
-                </div>       
-            {% endfor %}
-        </div>
-    </div>
-</section>
+	<section id="menu" class="py-5 bg-light">
+		<div class="container">
+			<h2 class="text-center mb-4">Notre selection du moment</h2>
+			<div class="row">
+				{% for selectedPizza in selectedPizzas %}
+					<div class="col-md-4 mb-4">
+						<div class="card">
+							<img src="{{ 'http://127.0.0.1:3000' ~ selectedPizza.image_path }}" class="card-img-top" alt="{{ selectedPizza.name }}">
+							<div class="card-body">
+								<h5 class="card-title">{{selectedPizza.name}}</h5>
+								<p class="card-text">{{selectedPizza.description}}</p>
+								<p class="card-text">
+									<strong>{{selectedPizza.price|price}}</strong>
+								</p>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
 
-<section id="about" class="py-5">
-    <div class="container text-center">
-        <h2>À Propos de Nous</h2>
-        <p>Pizza Express est une pizzeria familiale avec des recettes authentiques et des ingrédients frais. Nous nous efforçons de vous offrir une expérience culinaire exceptionnelle, avec des pizzas préparées sur place avec amour.</p>
-    </div>
-</section>
-<!--
-<section id="contact" class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center mb-4">Contactez-Nous</h2>
-        <form>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="name" class="form-label">Nom</label>
-                    <input type="text" class="form-control" id="name" placeholder="Votre nom">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Votre email">
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="message" class="form-label">Message</label>
-                <textarea class="form-control no-resize" id="message" rows="4" placeholder="Votre message"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Envoyer</button>
-        </form>
-    </div>
-</section>-->
+	<section id="about" class="py-5">
+		<div class="container text-center">
+			<h2>À Propos de Nous</h2>
+			<p>Pizza Express est une pizzeria familiale avec des recettes authentiques et des ingrédients frais. Nous nous efforçons de vous offrir une expérience culinaire exceptionnelle, avec des pizzas préparées sur place avec amour.</p>
+		</div>
+	</section>
+	<!--
+	<section id="contact" class="py-5 bg-light">
+	    <div class="container">
+	        <h2 class="text-center mb-4">Contactez-Nous</h2>
+	        <form>
+	            <div class="row">
+	                <div class="col-md-6 mb-3">
+	                    <label for="name" class="form-label">Nom</label>
+	                    <input type="text" class="form-control" id="name" placeholder="Votre nom">
+	                </div>
+	                <div class="col-md-6 mb-3">
+	                    <label for="email" class="form-label">Email</label>
+	                    <input type="email" class="form-control" id="email" placeholder="Votre email">
+	                </div>
+	            </div>
+	            <div class="mb-3">
+	                <label for="message" class="form-label">Message</label>
+	                <textarea class="form-control no-resize" id="message" rows="4" placeholder="Votre message"></textarea>
+	            </div>
+	            <button type="submit" class="btn btn-primary">Envoyer</button>
+	        </form>
+	    </div>
+	</section>-->
 {% endblock %}

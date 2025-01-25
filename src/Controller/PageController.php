@@ -36,15 +36,14 @@ class PageController extends AbstractController
     }
 
     #[Route('/admin', methods: ['GET'])]
-    public function displayUtilisateursPage(Request $request, RouteChecker $routeChecker)
+    public function displayAdminPage(Request $request, RouteChecker $routeChecker)
     {
         if (!$routeChecker->checkAdmin($request)) {
             return $this->redirectToRoute("app_page_displayaccueil");
         }
-        $token = $request->getSession()->get('token-session');
 
-        $response = $this->apiLinker->getData('/admin/*', $token);
-        return $this->render('admin.html.twig', ['users' => json_decode($response)]);
+        $response= $this->apiLinker->getData('/sectionProduits', null);
+        return $this->render('admin.html.twig', ['title' => 'administration', 'sections' => json_decode($response)]);
     }
 
     #[Route('/fidelite', methods: ['GET'])]
