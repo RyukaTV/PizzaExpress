@@ -24,7 +24,7 @@ class PageController extends AbstractController
     #[Route('/', methods: ['GET'])]
     public function displayAccueil()
     {
-        $response = $this->apiLinker->getData('/sectionProduits/selected', null);
+        $response = $this->apiLinker->getData('/sectionProduits/produits/selected', null);
         return $this->render('accueil.html.twig', ['title' => 'accueil', 'selectedPizzas' => json_decode($response)]);
     }
 
