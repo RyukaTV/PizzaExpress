@@ -8,6 +8,7 @@ use App\Service\ApiLinker;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\RouteChecker;
 use App\Service\JsonConverter;
+use Symfony\Component\HttpFoundation\Response;
 
 class PageController extends AbstractController
 {
@@ -54,24 +55,34 @@ class PageController extends AbstractController
         }       
         $valueData = $request->request->get("valueData");
         $sectionId= $request->request->get("sectionId");
-
-        switch ($valueData) {
-            case 'editSection':
-                $sectionName = $request->request->get("sectionName");
-                if (isset($sectionName) && !empty($sectionName)) {
-                    $data = $this->jsonConverter->encodeToJson(['sectionName' => $sectionName]);
-                    $this->apiLinker->putData('/sectionProduits/'.$sectionId, $data, $request->getSession()->get("token-session"));
-                }
-                break;
         
-            case 'deleteSection':
-                $this->apiLinker->deleteData('/sectionProduits/'.$sectionId, $request->getSession()->get("token-session"));
-                break;
+        if (isset($valueData) && !empty($valueData) && isset($sectionId) && !empty($sectionId)) {
+            switch ($valueData) {
+                case 'editSection':
+                    $sectionName = htmlspecialchars($request->request->get("sectionName"));
+                    if (isset($sectionName) && !empty($sectionName)) {
+                        $data = $this->jsonConverter->encodeToJson(['sectionName' => $sectionName]);
+                        $this->apiLinker->putData('/sectionProduits/'.$sectionId, $data, $request->getSession()->get("token-session"));
+                    }
+                    break;
             
-            default:
-                break;
+                case 'deleteSection':
+                    $this->apiLinker->deleteData('/sectionProduits/'.$sectionId, $request->getSession()->get("token-session"));
+                    break;
+    
+                case 'updateSelected':
+                    $selectedValue = $request->request->get("selectedValue");
+                    $produitId= $request->request->get("produitId");
+                    if (isset($selectedValue) && !empty($selectedValue) && isset($produitId) && !empty($produitId)) {
+                        $data = $this->jsonConverter->encodeToJson(['selectedValue' => $selectedValue === 'true']);
+                        $this->apiLinker->putData('/sectionProduits/'.$sectionId.'/produits/'.$produitId.'/selected', $data, $request->getSession()->get("token-session"));
+                    }
+                    break;
+                
+                default:
+                    break;
+            }
         }
-
         return $this->redirectToRoute("app_page_displayadminpage");
     }
 

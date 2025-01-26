@@ -97,11 +97,27 @@
 										<td>{{ item.description }}</td>
 										<td>{{ item.image_path }}</td>
 										<td>{{ item.price|price }}</td>
-										{% if item.selected %}
-											<td>Oui</td>
-										{% else %}
-											<td>Non</td>
-										{% endif %}
+										<td>
+											{% if item.selected %}
+												
+													<form action="/admin" method="post">
+														<input type="hidden" name="valueData" value="updateSelected">
+														<input type="hidden" name="selectedValue" value='false'>
+														<input type="hidden" name="sectionId" value="{{section.id}}">
+														<input type="hidden" name="produitId" value="{{item.id}}">
+														<button type="submit">Oui</button>
+													</form>
+												
+											{% else %}
+												<form action="/admin" method="post">
+													<input type="hidden" name="valueData" value="updateSelected">
+													<input type="hidden" name="selectedValue" value='true'>
+													<input type="hidden" name="sectionId" value="{{section.id}}">
+													<input type="hidden" name="produitId" value="{{item.id}}">
+													<button type="submit">Non</button>
+												</form>
+											{% endif %}
+										</td>
 									</tr>
 								{% endfor %}
 							</tbody>
