@@ -14,15 +14,22 @@ document.addEventListener('DOMContentLoaded', () => {
     var closeButtons = document.getElementsByClassName("closeModal");
     for (let button of closeButtons) {
         button.addEventListener('click', () => {
-            document.getElementById("myModal").style.display = "none";
+            for (let elem of document.getElementsByClassName("ModalDelSection")) {
+                elem.style.display = "none"; 
+            }
+            for (let elem of document.getElementsByClassName("ModalEditSection")) {
+                elem.style.display = "none"; 
+            }
         });
     }
 
 
 });
 
-function openModal() {
-    document.getElementById("myModal").style.display = "block";
+function openModalDelSection(sectionId) {
+    document.querySelector(`.ModalDelSection[data-section-id="${sectionId}"]`).style.display = "block";
 }
 
-
+function openModalEditSection(sectionId) {
+    document.querySelector(`.ModalEditSection[data-section-id="${sectionId}"]`).style.display = "block";
+}

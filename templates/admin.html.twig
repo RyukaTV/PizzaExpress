@@ -14,8 +14,6 @@
 	<script src="{{ asset('js/admin.js')}}"></script>
 {% endblock %}
 
-{% set developSection = false %}
-
 {% block body %}
 	<table class="mt-5">
 		<thead>
@@ -26,28 +24,56 @@
 			</tr>
 		</thead>
 
-
-		<div id="myModal" class="modal">
-			<div class="modal-content">
-				<span><span class="close closeModal">&times;</span></span>
-				<p class="d-flex justify-conten-center">Êtes-vous sûr de vouloir supprimer ?</p>
-				<span class="grid gap-5">
-					<button class="btn btn-warning">Confirmer</button>
-					<button class="btn btn-danger closeModal">Annuler</button>
-				</span>
-			</div>
-		</div>
-
 		<tbody>
 			{% for section in sections %}
+
+				<div class="modal ModalEditSection" data-section-id="{{ section.id }}">
+					<div class="modal-content">
+						<span>					
+							<span class="close closeModal">&times;</span>
+							<p class="d-flex justify-conten-center">Êdition section n°{{section.id}}?</p>
+						</span>
+						
+						<div class="grid gap-2">
+							<form action="/admin" method="post">
+								<input type="hidden" name="valueData" value="editSection">
+								<input type="hidden" name="sectionId" value="{{section.id}}">
+								<div class='form-group'>
+									<input type='text' class='form-control' name='sectionName' placeholder='{{section.section_name}}' required>
+								</div>
+
+								<span class="grid gap-5 mt-5">
+									<button type='submit' class="btn btn-warning">Confirmer</button>
+									<button type="reset" class="btn btn-danger closeModal">Annuler</button>
+								</span>	
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal ModalDelSection" data-section-id="{{ section.id }}">
+					<div class="modal-content">
+						<span>
+							<span class="close closeModal">&times;</span>
+						</span>
+						<p class="d-flex justify-conten-center">Êtes-vous sûr de vouloir supprimer la section n°{{section.id}}?</p>
+						<form action="/admin" method="post" class="grid gap-5">
+							<input type="hidden" name="valueData" value="deleteSection">
+							<input type="hidden" name="sectionId" value="{{section.id}}">
+							<button type="submit" class="btn btn-warning">Confirmer</button>
+							<button type="reset" class="btn btn-danger closeModal">Annuler</button>
+						</form>
+					</div>
+				</div>
+
 				<tr>
 					<th scope="row">{{ section.id }}</th>
 					<td>{{ section.section_name }}</td>
 
 					<td class="grid gap-5">
 						<span class="toggle-section toogleButtons" data-section-id="{{ section.id }}">+</span>
-						<span class="toogleButtons">/</span>
-						<span class="toogleButtons" onclick="openModal()">del</span>
+						<span class="toogleButtons" onclick="openModalEditSection({{ section.id }})">/</span>
+						<span class="toogleButtons" onclick="openModalDelSection({{ section.id }})">del</span>
 					</td>
 				</tr>
 				<tr class="sub-section hidden" data-section-id="{{ section.id }}">

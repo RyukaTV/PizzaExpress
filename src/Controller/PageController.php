@@ -46,6 +46,35 @@ class PageController extends AbstractController
         return $this->render('admin.html.twig', ['title' => 'administration', 'sections' => json_decode($response)]);
     }
 
+    #[Route('/admin', methods: ['POST'])]
+    public function MethodsAdminPage(Request $request, RouteChecker $routeChecker)
+    {
+        if (!$routeChecker->checkAdmin($request)) {
+            return $this->redirectToRoute("app_page_displayaccueil");
+        }       
+        $valueData = $request->request->get("valueData");
+        $sectionId= $request->request->get("sectionId");
+
+        switch ($valueData) {
+            case 'editSection':
+                $sectionName = $request->request->get("sectionName");
+                if (isset($sectionName) && !empty($sectionName)) {
+                    $data = $this->jsonConverter->encodeToJson(['sectionName' => $sectionName]);
+                    $this->apiLinker->putData('/sectionProduits/'.$sectionId, $data, $request->getSession()->get("token-session"));
+                }
+                break;
+        
+            case 'deleteSection':
+                $this->apiLinker->deleteData('/sectionProduits/'.$sectionId, $request->getSession()->get("token-session"));
+                break;
+            
+            default:
+                break;
+        }
+
+        return $this->redirectToRoute("app_page_displayadminpage");
+    }
+
     #[Route('/fidelite', methods: ['GET'])]
     public function displayFidelitePage()
     {
