@@ -98,25 +98,21 @@
 										<td>{{ item.image_path }}</td>
 										<td>{{ item.price|price }}</td>
 										<td>
-											{% if item.selected %}
-												
-													<form action="/admin" method="post">
-														<input type="hidden" name="valueData" value="updateSelected">
-														<input type="hidden" name="selectedValue" value='false'>
-														<input type="hidden" name="sectionId" value="{{section.id}}">
-														<input type="hidden" name="produitId" value="{{item.id}}">
-														<button type="submit" class="btn btn-danger">NON</button>
-													</form>
-												
-											{% else %}
-												<form action="/admin" method="post">
+											<form action="/admin" method="post">
+												{% if item.selected %}
+													<input type="hidden" name="valueData" value="updateSelected">
+													<input type="hidden" name="selectedValue" value='false'>
+													<input type="hidden" name="sectionId" value="{{section.id}}">
+													<input type="hidden" name="produitId" value="{{item.id}}">
+													<button type="submit" class="btn btn-danger">NON</button>				
+												{% else %}
 													<input type="hidden" name="valueData" value="updateSelected">
 													<input type="hidden" name="selectedValue" value='true'>
 													<input type="hidden" name="sectionId" value="{{section.id}}">
 													<input type="hidden" name="produitId" value="{{item.id}}">
 													<button type="submit" class="btn btn-success">OUI</button>
-												</form>
-											{% endif %}
+												{% endif %}
+											</form>
 										</td>
 									</tr>
 								{% endfor %}
