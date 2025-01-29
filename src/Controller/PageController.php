@@ -109,6 +109,46 @@ class PageController extends AbstractController
                         $this->apiLinker->deleteData('/sectionProduits/'.$sectionId.'/produits/'.$id, $request->getSession()->get("token-session"));
                     }
                     break;
+
+                case 'editProduit':
+                    $produitId = htmlspecialchars($request->request->get("produitId"), ENT_QUOTES);
+                    $produitName = htmlspecialchars($request->request->get("produitName"), ENT_QUOTES);
+                    $produitDescription = htmlspecialchars($request->request->get("produitDescription"), ENT_QUOTES);
+                    $produitPrice = htmlspecialchars($request->request->get("produitPrice"), ENT_QUOTES);
+                    $file = $request->files->get('produitImage');
+                    $selectSection = htmlspecialchars($request->request->get("selectSection"), ENT_QUOTES);
+                
+                    if (empty($produitId) || empty($sectionId)) {
+                        break;
+                    }
+                
+                    $data = [];
+                    if (!empty($produitName)) {
+                        $data["produitName"] = $produitName;
+                    }
+                    if (!empty($produitDescription)) {
+                        $data["produitDescription"] = $produitDescription;
+                    }
+                    if (!empty($produitPrice)) {
+                        $data["produitPrice"] = $produitPrice;
+                    }
+                    if (!empty($selectSection)) {
+                        $data["selectSection"] = $selectSection;
+                    }
+                
+                    if (!empty($file)) {
+                        $fileContent = file_get_contents($file->getPathname());
+                        $fileExtension = $file->getClientOriginalExtension();
+                        $base64FileContent = base64_encode($fileContent);
+                        $base64File = 'data:image/' . $fileExtension . ';base64,' . $base64FileContent;
+                        $data["produitImage"] = $base64File;
+                    }
+                
+                    if (!empty($data)) {
+                        $jsonData = $this->jsonConverter->encodeToJson($data);
+                        $this->apiLinker->putData('/sectionProduits/' . $sectionId . '/produits/' . $produitId, $jsonData, $request->getSession()->get("token-session"));
+                    }
+                    break;         
                 default:
                     break;
             }
