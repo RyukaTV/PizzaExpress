@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Service\JsonConverter;
 use App\Service\ApiLinker;
+use App\Service\RouteChecker;
 
 class ConnexionController extends AbstractController
 {
@@ -57,8 +58,11 @@ class ConnexionController extends AbstractController
     }
 
     #[Route('/login', methods: ['GET'])]
-    public function diplayLoginForm()
+    public function diplayLoginForm(Request $request, RouteChecker $routeChecker)
     {
+        if ($routeChecker->checkUser($request)) {
+            return $this->redirectToRoute("app_page_displayaccueil");
+        }
         return $this->render("login.html.twig", ['title' => 'login']);
     }
 
