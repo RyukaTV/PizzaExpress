@@ -26,8 +26,8 @@ class ConnexionController extends AbstractController
     public function connexion(Request $request)
     {
         try {
-            $email = $request->request->get('email');
-            $password = $request->request->get('password');
+            $email = htmlspecialchars($request->request->get("email"), ENT_QUOTES);
+            $password = htmlspecialchars($request->request->get("password"), ENT_QUOTES);
 
             if (!empty($email) && !empty($password)) {
                 $data = $this->jsonConverter->encodeToJson(['email' => $email, 'password' => $password]);

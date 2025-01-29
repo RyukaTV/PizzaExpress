@@ -12,18 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     var closeButtons = document.getElementsByClassName("closeModal");
+    var classes= ["ModalDelSection", "ModalEditSection", "ModalAjoutSection", "ModalAjoutProduit", "ModalEditProduit", "ModalDelProduit"];
     for (let button of closeButtons) {
         button.addEventListener('click', () => {
-            for (let elem of document.getElementsByClassName("ModalDelSection")) {
-                elem.style.display = "none"; 
-            }
-            for (let elem of document.getElementsByClassName("ModalEditSection")) {
-                elem.style.display = "none"; 
-            }
+            classes.forEach(element => {
+                for (let elem of document.getElementsByClassName(element)) {
+                    elem.style.display = "none"; 
+                }
+            });
         });
     }
-
-
 });
 
 function openModalDelSection(sectionId) {
@@ -32,4 +30,20 @@ function openModalDelSection(sectionId) {
 
 function openModalEditSection(sectionId) {
     document.querySelector(`.ModalEditSection[data-section-id="${sectionId}"]`).style.display = "block";
+}
+
+function openModalAjoutSection() {
+    document.querySelector(`.ModalAjoutSection`).style.display = "block";
+}
+
+function openModalAddProduit() {
+    document.querySelector(`.ModalAjoutProduit`).style.display = "block";
+}
+
+function openModalEditProduit(produitId) {
+    document.querySelector(`.ModalEditProduit[data-produit-id="${produitId}"]`).style.display = "block";
+}
+
+function openModalDelProduit(produitId) {
+    document.querySelector(`.ModalDelProduit[data-produit-id="${produitId}"]`).style.display = "block";
 }
