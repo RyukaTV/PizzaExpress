@@ -23,7 +23,15 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{produit.name}}</h5>
                                 <p class="card-text">{{produit.description}}</p>
-                                <p class="card-text"><strong>{{produit.price|price}}</strong></p>
+                                <p class="card-text">
+									<strong>
+										{% if app.session.has("loyalty_points") and app.session.get("loyalty_points") == 8 %}
+											{{(produit.price * 0.9)|price}}
+										{% else %}
+											{{produit.price|price}}
+										{% endif %}
+									</strong>
+								</p>
                             </div>
                         </div>
                     </div>

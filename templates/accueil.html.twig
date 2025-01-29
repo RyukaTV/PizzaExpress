@@ -43,7 +43,13 @@
 								<h5 class="card-title">{{selectedPizza.name}}</h5>
 								<p class="card-text">{{selectedPizza.description}}</p>
 								<p class="card-text">
-									<strong>{{selectedPizza.price|price}}</strong>
+									<strong>
+										{% if app.session.has("loyalty_points") and app.session.get("loyalty_points") == 8 %}
+											{{(selectedPizza.price * 0.9)|price}}
+										{% else %}
+											{{selectedPizza.price|price}}
+										{% endif %}
+									</strong>
 								</p>
 							</div>
 						</div>
@@ -60,26 +66,26 @@
 		</div>
 	</section>
 	<!--
-	<section id="contact" class="py-5 bg-light">
-	    <div class="container">
-	        <h2 class="text-center mb-4">Contactez-Nous</h2>
-	        <form>
-	            <div class="row">
-	                <div class="col-md-6 mb-3">
-	                    <label for="name" class="form-label">Nom</label>
-	                    <input type="text" class="form-control" id="name" placeholder="Votre nom">
-	                </div>
-	                <div class="col-md-6 mb-3">
-	                    <label for="email" class="form-label">Email</label>
-	                    <input type="email" class="form-control" id="email" placeholder="Votre email">
-	                </div>
-	            </div>
-	            <div class="mb-3">
-	                <label for="message" class="form-label">Message</label>
-	                <textarea class="form-control no-resize" id="message" rows="4" placeholder="Votre message"></textarea>
-	            </div>
-	            <button type="submit" class="btn btn-primary">Envoyer</button>
-	        </form>
-	    </div>
-	</section>-->
+		<section id="contact" class="py-5 bg-light">
+		    <div class="container">
+		        <h2 class="text-center mb-4">Contactez-Nous</h2>
+		        <form>
+		            <div class="row">
+		                <div class="col-md-6 mb-3">
+		                    <label for="name" class="form-label">Nom</label>
+		                    <input type="text" class="form-control" id="name" placeholder="Votre nom">
+		                </div>
+		                <div class="col-md-6 mb-3">
+		                    <label for="email" class="form-label">Email</label>
+		                    <input type="email" class="form-control" id="email" placeholder="Votre email">
+		                </div>
+		            </div>
+		            <div class="mb-3">
+		                <label for="message" class="form-label">Message</label>
+		                <textarea class="form-control no-resize" id="message" rows="4" placeholder="Votre message"></textarea>
+		            </div>
+		            <button type="submit" class="btn btn-primary">Envoyer</button>
+		        </form>
+		    </div>
+		</section>-->
 {% endblock %}
