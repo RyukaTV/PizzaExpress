@@ -18,7 +18,7 @@
 		<div class="d-flex justify-content-center titleStamp" style="margin-top: 5%;">Votre programme de points fidélité</div>
 
 		<div class="containerStamp" style=" margin-top: 5%;">
-			<div class="card-gridStamp" {% if app.session.get('loyalty_points') == 8 %} style="background-color:yellow;" {% endif %}>
+			<div class="card-gridStamp" {% if app.session.get('loyalty_points') >= 8 %} style="background-color:yellow;" {% endif %}>
 				{% for i in 1..8 %}
 					<div class="cardStamp">
 						{% if i <= app.session.get('loyalty_points') %}
